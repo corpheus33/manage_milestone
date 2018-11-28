@@ -5,31 +5,31 @@
 // date au format MM/DD/YYYY
 var dataExample = [
     {
-        id: 1,
+        _id: 1,
         date: '09/06/2018',
         content: 'contenu 1',
         actif: true
     },
 		{
-        id: 4,
+        _id: 4,
         date: '11/18/2018',
         content: 'contenu 4',
         actif: false
     },
 		{
-        id: 3,
+        _id: 3,
         date: '10/30/2018',
         content: 'contenu 3',
         actif: false
     },
 		{
-        id: 2,
+        _id: 2,
         date: '10/15/2018',
         content: 'contenu 2',
         actif: true
     },
 		{
-        id: 5,
+        _id: 5,
         date: '12/12/2018',
         content: 'contenu 5',
         actif: true
@@ -192,21 +192,21 @@ class UpdateItemComponent extends React.Component {
     //FIXME : contrôle champs not null contrôle du champ cardDate au format MM/DD/YYYY (ou prévoir une transformation)
     //this.props.addNewItem(this.state);
     var tmp = {
-      id: this.props.item.id,
+      _id: this.props.item._id,
       date: new Date(this.state.newCardDate),
       content: this.state.newCardDescription,
       actif: true,
     };
-    //console.log("UpdateItemComponent.submit item id "+this.props.item.id+" / contenu "+this.state.newCardDescription+" date "+this.state.newCardDate+" e.target "+event.target.value);
-    console.log("UpdateItemComponent.submit item id "+tmp.id+" / contenu "+tmp.date+" date "+tmp.content+" actif "+tmp.value);
+    //console.log("UpdateItemComponent.submit item _id "+this.props.item._id+" / contenu "+this.state.newCardDescription+" date "+this.state.newCardDate+" e.target "+event.target.value);
+    console.log("UpdateItemComponent.submit item id "+tmp._id+" / contenu "+tmp.date+" date "+tmp.content+" actif "+tmp.value);
     this.props.updateItem(tmp);
-    //console.log("submit item id "+this.props.item.id+" / contenu "+this.state.newCardDescription+" date "+this.state.newCardDate+" e.target "+event.target.value);
+    //console.log("submit item _id "+this.props.item._id+" / contenu "+this.state.newCardDescription+" date "+this.state.newCardDate+" e.target "+event.target.value);
     event.preventDefault();
 	}
 
   //Afficher la modal
 	handleShow() {
-    console.log("show item id "+this.props.item.id+" / contenu "+this.props.item.content+" date "+this.props.item.date.toLocaleDateString('fr-FR'));
+    console.log("show item _id "+this.props.item._id+" / contenu "+this.props.item.content+" date "+this.props.item.date.toLocaleDateString('fr-FR'));
     this.setState({showModal: true});
   }
   //masquer la modal
@@ -231,7 +231,7 @@ class UpdateItemComponent extends React.Component {
 
   //
   componentWillUnmount() {
-    console.log("closure item id "+this.props.item.id+" / contenu "+this.props.item.content+" date "+this.props.item.date.toLocaleDateString('fr-FR'));
+    console.log("closure item id "+this.props.item._id+" / contenu "+this.props.item.content+" date "+this.props.item.date.toLocaleDateString('fr-FR'));
   }
 
 	render() {
@@ -240,7 +240,7 @@ class UpdateItemComponent extends React.Component {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="updateItemComponentLabel">Déplacer le jalon #{this.props.item.id}</h5>
+              <h5 className="modal-title" id="updateItemComponentLabel">Déplacer le jalon #{this.props.item._id}</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -298,9 +298,10 @@ class TimelineCard extends React.Component {
 
   //https://reactjs.org/docs/handling-events.html
   handleUpdateItem(card) {
+    //card.preventDefault();
     this.props.updateItem(card);
     //this.props.postponeItem(this.props.item);
-    card.preventDefault();
+
   }
 
   render() {
@@ -308,14 +309,14 @@ class TimelineCard extends React.Component {
       float: 'left',
     };
 
-    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone id "+this.props.item.id.toString())}}>Clore</button></div>
-    //<div align="right"><button className="btn btn-warning btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone id "+this.props.item.id.toString())}}>Reporter</button></div>
+    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
+    //<div align="right"><button className="btn btn-warning btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Reporter</button></div>
     return (
       <li className="timeline-item">
         <div className="timeline-badge primary"><i className="glyphicon glyphicon-check"></i></div>
-        <div className="timeline-panel" key={this.props.item.id}>
+        <div className="timeline-panel" key={this.props.item._id}>
           <div className="timeline-heading">
-            <h4 className="timeline-title">{this.props.item.date.toLocaleDateString('fr-FR')} - {this.props.item.id}</h4>
+            <h4 className="timeline-title">{this.props.item.date.toLocaleDateString('fr-FR')} - {this.props.item._id}</h4>
             <div>
               <small className="text-muted">
                 <div style={divActionLeftStyle}><button className="btn btn-success btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={this.handleCloseItem}>Clore</button></div>
@@ -359,7 +360,7 @@ class DeleteItemComponent extends React.Component {
   }
 
   handleDeleteItem(item, event) {
-    alert("super cool cs "+item.id);
+    alert("super cool cs "+item._id);
     //this.props.deleteItem(item);
     event.preventDefault();
   }
@@ -403,7 +404,7 @@ class TableLineComponent extends React.Component {
   }
 
   handleDeleteItem(item, event) {
-    //alert("super cool cs "+item.id);
+    //alert("super cool cs "+item._id);
     this.props.deleteItem(item);
     event.preventDefault();
   }
@@ -414,7 +415,7 @@ class TableLineComponent extends React.Component {
       items.map((item) =>
         <React.Fragment>
           <tr>
-            <th scope="row">{item.id}</th>
+            <th scope="row">{item._id}</th>
             <td>{item.date.toLocaleDateString('fr-FR')}</td>
             <td>{item.content}</td>
             <td>{item.actif.toString()}</td>
@@ -426,7 +427,7 @@ class TableLineComponent extends React.Component {
           </tr>
         </React.Fragment>
       )
-    );//fin du return    
+    );//fin du return
     //<DeleteItemComponent item={item}/>
   }
 }
@@ -438,7 +439,7 @@ class TableComponent extends React.Component {
   }
 
   handleDeleteItem(item) {
-    //alert("TableComponent "+item.id);
+    //alert("TableComponent "+item._id);
     this.props.deleteItem(item);
     event.preventDefault();
   }
@@ -472,7 +473,7 @@ class TableComponent extends React.Component {
           return (
             <React.Fragment>
               <tr>
-                <th scope="row">{item.id}</th>
+                <th scope="row">{item._id}</th>
                 <td>{item.date.toLocaleDateString('fr-FR')}</td>
                 <td>{item.content}</td>
 
@@ -494,113 +495,269 @@ class App extends React.Component {
 		super(props);
     this.state = {
       items:[], //liste des jalons
+      db:new PouchDB('todos'),
+      remoteCouch:false,
     };
+
+    /*BINDING DES FONCTIONS*/
+    this.handleNewItem = this.handleNewItem.bind(this);
+    this.handleCloseItem = this.handleCloseItem.bind(this);
+    this.handleUpdateItem = this.handleUpdateItem.bind(this);
+    this.handleDeleteItem = this.handleDeleteItem.bind(this);
+    this.getItemFromDB = this.getItemFromDB.bind(this);
+
+    //Initialisation de la database
+    //db = new PouchDB('todos');
+    //var remoteCouch = false;
+    //console.log('Successfully initialization database');
 
     //initialisation des jalons avec le jeu de données.
     //Après à faire avec la recherche de données dans le localStorage
-    for( var i = 0; i < dataExample.length; ++i ) {
-      var item = {
-        id: idGenerator(),
-        date: new Date(dataExample[i].date),
-        content: dataExample[i].content,
-        actif: dataExample[i].actif,
-      };
 
-      //console.log("add new item "+ dataExample[i].date + " "+item.actif);
-      this.state.items= this.state.items.concat(item).sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
 
-      /*BINDING DES FONCTIONS*/
-      this.handleNewItem = this.handleNewItem.bind(this);
-      this.handleCloseItem = this.handleCloseItem.bind(this);
-      this.handleUpdateItem = this.handleUpdateItem.bind(this);
-      this.handleDeleteItem = this.handleDeleteItem.bind(this);
+
+
+    // for( var i = 0; i < dataExample.length; ++i ) {
+    //   var item = {
+    //     _id: idGenerator(),
+    //     date: new Date(dataExample[i].date),
+    //     content: dataExample[i].content,
+    //     actif: dataExample[i].actif,
+    //     _rev: null,
+    //   };
+    //
+    //   console.log('Starting registering into database item._id '+item._id);
+    //   this.state.db.put(item, function callback(err, result) {
+    //     if (!err) {
+    //       console.log('Successfully created an item in init! '+result._id);
+    //     }
+    //   });
+    //
+    //
+    //
+    //   console.log('Sorting items including '+item._id);
+    //   //console.log("add new item "+ dataExample[i].date + " "+item.actif);
+    //   this.state.items= this.state.items.concat(item).sort((a, b) => new Date(a.date) - new Date(b.date));
+    //}
+
+    var $self = this;
+
+    this.state.db.allDocs({
+        include_docs: true,
+        descending: true
+      }).then(function (result) {
+        console.log('[APP] get item avant');
+        for( var i = 0; i < result.total_rows; ++i ) {
+          console.log('[APP] get item '+result.rows[i].doc._id+' '+result.rows[i].doc._rev);
+          var item = {
+             _id: result.rows[i].doc._id,
+             date: new Date(result.rows[i].doc.date),
+             content: result.rows[i].doc.content,
+             actif: result.rows[i].doc.actif,
+             _rev: result.rows[i].doc._rev,
+          };
+          $self.state.items= $self.state.items.concat(item).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        }
+        $self.forceUpdate();
+      }).catch(function (err) {
+        console.log('[APP] err '+err.toString());
+      });
+    console.log('[APP] on poursuit');
+
+    console.log('End of APP constructor');
+  }
+
+  //fonctions de base : getItemFromDB
+  getItemFromDB(item) {
+    var $self = this;
+    console.log('[getItemFromDB] START');
+    //const db = this.state.db;
+    return new Promise(function (resolve, reject) {
+      console.log('Starting searching for item '+item._id);
+
+      $self.state.db.get(item._id).then(function (doc) {
+        console.log('Doc found rev '+doc._rev);
+        resolve(doc);
+      }).catch(function (err) {
+        console.log("toto "+ err);
+        reject(err);
+      });
+    });
   }
 
   //Méthode d'ajout d'un nouvel item dans la liste avec rafraichissement de la liste.
   //FIXME : prévoir éventuellement un contrôle du champ date au format MM/DD/YYYY
   //FIXME : sortir la fonction de tri du constructeur et de l'ajout
   handleNewItem(item){
+    //déclaration du mot clef this dans une variable pour permettre retrouver App dans PouchDB
+    var $self = this;
     //alert('passage dans App.addItem');
     var tmp = {
-        id: idGenerator(),
+        _id: idGenerator(),
         date: new Date(item.cardDate),
         content: item.cardDescription,
-        actif: true
+        actif: true,
+        _rev: null,
     };
     //var listTmp =  this.state.items.sort(); //this.state.listItem.sort((a, b) => new Date(b.date) - new Date(a.date));
     //alert('listTmp date '+new Date(tmp.date)-new Date('11/18/2018'));
 
-    this.setState({
-      //listItem: listTmp,
-      items: this.state.items.concat(tmp).sort((a, b) => new Date(a.date) - new Date(b.date)),
+    //ajout en database
+    this.state.db.put(tmp, function callback(err, result) {
+      if (!err) {
+        console.log('[handleNewItem] Successfully created an item! ');
+        $self.setState({
+          //listItem: listTmp,
+          items: $self.state.items.concat(tmp).sort((a, b) => new Date(a.date) - new Date(b.date)),
+        });
+      }
+      else {
+        console.log('[handleNewItem] Error creating an item '+err.toString());
+      }
     });
   }
 
   //Méthode qui permet de clore un jalon.
   //Le statut du jalon est passé à inactif.
   handleCloseItem(card) {
-    console.log("passage dans App.handleCloseItem "+card.id);
+    console.log("passage dans App.handleCloseItem "+card._id);
+    var $self = this;
+    //const db = this.state.db;
+    //const list = this.state.items;
 
     //identifier l'index de l'objet à remplacer en recherchant sur l'id unique de la carte
-    var objIndex = this.state.items.findIndex(obj => obj.id === card.id);
+    var objIndex = this.state.items.findIndex(obj => obj._id === card._id);
 
     //création d'un nouvel objet sans changer l'item d'origine (immutabilité)
     const closedObj = Object.assign({}, this.state.items[objIndex], {actif: 'false'});
     //avec object spread syntax proposal
     //const updatedObj = { ...this.state.items[objIndex], actif: 'false'};
 
-    //création d'une copie des items avec remplacement de l'objet
-    var updatedItems = [
-      ...this.state.items.slice(0, objIndex),
-      closedObj,
-      ...this.state.items.slice(objIndex + 1),
-    ];
+    console.log('handleCloseItem avant promesse');
+    this.getItemFromDB(card).then(function (content) {
+      closedObj._rev = content._rev;
+      console.log('handleCloseItem id '+closedObj._id + ' closedObj._rev '+closedObj._rev+ 'closedObj.actif '+closedObj.actif);
+      //update en database
 
-    //remplacement de la liste par une nouvelle version
-    this.setState({items: updatedItems});
+      // db.put(closedObj, function callback(err, result) {
+      //   if (!err) {
+      //     console.log('Successfully closed item '+closedObj._id);
+      //     //création d'une copie des items avec remplacement de l'objet
+      //     var updatedItems = [
+      //       ...this.state.items.slice(0, objIndex),
+      //       closedObj,
+      //       ...this.state.items.slice(objIndex + 1),
+      //     ];
+      //
+      //     console.log('handleCloseItem on arrive au bout');
+      //     //remplacement de la liste par une nouvelle version
+      //     this.setState({items: updatedItems});
+      //     console.log('handleCloseItem on a fini');
+      //   }
+      //   else {
+      //     console.log('Error closed item '+err);
+      //   }
+      // });
+
+      return $self.state.db.put(
+        {
+          _id:closedObj._id,
+          date:closedObj.date,
+          content:closedObj.content,
+          _rev:closedObj._rev,
+          actif:closedObj.actif
+        });
+    }).then(function(response) {
+      console.log('Successfully closed item '+closedObj._id);
+      //création d'une copie des items avec remplacement de l'objet
+      // var updatedItems = [
+      //   ...this.state.items.slice(0, objIndex),
+      //   closedObj,
+      //   ...this.state.items.slice(objIndex + 1),
+      // ];
+      var updatedItems = [
+        ...$self.state.items.slice(0, objIndex),
+        closedObj,
+        ...$self.state.items.slice(objIndex + 1),
+      ];
+
+      console.log('handleCloseItem on arrive au bout');
+      //remplacement de la liste par une nouvelle version
+      $self.setState({items: updatedItems});
+      console.log('handleCloseItem on a fini');
+    }).catch(function (err) {
+      console.error('[handleCloseItem] Erreur récupération objet en base! '+err.toString());
+    });
   }
 
   //Méthode qui change les informations d'un jalon
   //on change les informations d'une carte. La liste est mise à jour et triée.
   handleUpdateItem(card) {
-    console.log("App.handleUpdateItem item id "+card.id+" / contenu "+card.content+" date "+card.date.toLocaleDateString('fr-FR')+" actif "+card.actif);
+    console.log("App.handleUpdateItem item _id "+card._id+" / contenu "+card.content+" date "+card.date.toLocaleDateString('fr-FR')+" actif "+card.actif);
+    var $self = this;
 
-    var objIndex = this.state.items.findIndex(obj => obj.id === card.id);
+    var objIndex = this.state.items.findIndex(obj => obj._id === card._id);
 
     //création d'un nouvel objet sans changer l'item d'origine (immutabilité)
     const updatedObj = Object.assign({}, this.state.items[objIndex], {content: card.content, date: card.date});
     //avec object spread syntax proposal
     //const updatedObj = { ...this.state.items[objIndex], actif: 'false'};
 
-    //création d'une copie des items avec remplacement de l'objet
-    var updatedItems = [
-      ...this.state.items.slice(0, objIndex),
-      updatedObj,
-      ...this.state.items.slice(objIndex + 1),
-    ];
-
-    //remplacement de la liste par une nouvelle version
-    this.setState(
-      {
-        items: updatedItems.sort((a, b) => new Date(a.date) - new Date(b.date))
-      }
-    );
+    console.log('[handleUpdateItem] avant promesse');
+    this.getItemFromDB(card).then(function (content) {
+      updatedObj._rev = content._rev;
+      console.log('[handleUpdateItem] id '+updatedObj._id + ' updatedObj._rev '+updatedObj._rev+ 'updatedObj.actif '+updatedObj.actif);
+      return $self.state.db.put(
+        {
+          _id:updatedObj._id,
+          date:updatedObj.date,
+          content:updatedObj.content,
+          _rev:updatedObj._rev,
+          actif:updatedObj.actif
+        });
+      }).then(function(response) {
+        console.log('[handleUpdateItem] Successfully updated item '+updatedObj._id);
+        //création d'une copie des items avec remplacement de l'objet
+        var updatedItems = [
+          ...$self.state.items.slice(0, objIndex),
+          updatedObj,
+          ...$self.state.items.slice(objIndex + 1),
+        ];
+      console.log('[handleUpdateItem] on arrive au bout');
+      //remplacement de la liste par une nouvelle version
+      $self.setState(
+        {
+          items: updatedItems.sort((a, b) => new Date(a.date) - new Date(b.date))
+        }
+      );
+      console.log('[handleUpdateItem] on a fini');
+    }).catch(function (err) {
+      console.error('[handleUpdateItem] Erreur récupération objet en base! '+err.toString());
+    });
   }
 
   handleDeleteItem(card) {
-    var objIndex = this.state.items.findIndex(obj => obj.id === card.id);
-
-    //création de la copie
-    var updatedItems = this.state.items.slice();
-    updatedItems.splice(objIndex, 1);//index où se situe l'objet à supprimer et nombre d'objets à supprimer.
-
-    //remplacement de la liste par une nouvelle version
-    this.setState(
-      {
-        items: updatedItems
-      }
-    );
+    console.log('[handleDeleteItem] avant promesse');
+    var objIndex = this.state.items.findIndex(obj => obj._id === card._id);
+	var $self = this;
+	
+    this.getItemFromDB(card).then(function (doc) {
+      return $self.state.db.remove(doc._id, doc._rev);
+    }).then(function(response) {
+      console.log('[handleDeleteItem] Successfully removed item '+card._id);
+      //création de la copie
+      var updatedItems = $self.state.items.slice();
+      updatedItems.splice(objIndex, 1);//index où se situe l'objet à supprimer et nombre d'objets à supprimer.
+      //remplacement de la liste par une nouvelle version
+      $self.setState({items: updatedItems});
+      console.log('[handleDeleteItem] on arrive au bout');
+      //remplacement de la liste par une nouvelle version
+      $self.setState({items: updatedItems.sort((a, b) => new Date(a.date) - new Date(b.date))});
+      console.log('[handleDeleteItem] on a fini');
+    }).catch(function (err) {
+      console.error('[handleDeleteItem] Erreur récupération objet en base! '+err.toString());
+    });
   }
 
 	render() {
@@ -610,7 +767,7 @@ class App extends React.Component {
     //  <TimelineCard item={item} />
     //);
     const cardItems = listItems.map(function (item) {
-      //console.log("item["+item.id+"].actif["+item.actif.toString()+"]")
+      //console.log("item["+item._id+"].actif["+item.actif.toString()+"]")
       if(item.actif.toString() == "true"){
           return <TimelineCard item={item} closeItem={this.handleCloseItem} updateItem={this.handleUpdateItem}/>
       }
@@ -631,7 +788,7 @@ class App extends React.Component {
             <NewCardModalComponent addNewItem={this.handleNewItem}/>
             <div style={divStyle}>
               <ul className="timeline timeline-horizontal">
-                <div key={cardItems.id}>{cardItems}</div>
+                <div key={cardItems._id}>{cardItems}</div>
               </ul>
             </div>
           </div>
