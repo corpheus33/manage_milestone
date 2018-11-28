@@ -3,38 +3,38 @@
 
 //JDD
 // date au format MM/DD/YYYY
-var dataExample = [
-    {
-        _id: 1,
-        date: '09/06/2018',
-        content: 'contenu 1',
-        actif: true
-    },
-		{
-        _id: 4,
-        date: '11/18/2018',
-        content: 'contenu 4',
-        actif: false
-    },
-		{
-        _id: 3,
-        date: '10/30/2018',
-        content: 'contenu 3',
-        actif: false
-    },
-		{
-        _id: 2,
-        date: '10/15/2018',
-        content: 'contenu 2',
-        actif: true
-    },
-		{
-        _id: 5,
-        date: '12/12/2018',
-        content: 'contenu 5',
-        actif: true
-    },
-];
+// var dataExample = [
+//     {
+//         _id: 1,
+//         date: '09/06/2018',
+//         content: 'contenu 1',
+//         actif: true
+//     },
+// 		{
+//         _id: 4,
+//         date: '11/18/2018',
+//         content: 'contenu 4',
+//         actif: false
+//     },
+// 		{
+//         _id: 3,
+//         date: '10/30/2018',
+//         content: 'contenu 3',
+//         actif: false
+//     },
+// 		{
+//         _id: 2,
+//         date: '10/15/2018',
+//         content: 'contenu 2',
+//         actif: true
+//     },
+// 		{
+//         _id: 5,
+//         date: '12/12/2018',
+//         content: 'contenu 5',
+//         actif: true
+//     },
+// ];
 
 
 function idGenerator() {
@@ -309,11 +309,24 @@ class TimelineCard extends React.Component {
       float: 'left',
     };
 
-    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
+    var color =  'success';
+
+    var dayDate = new Date();
+    var cardDate = new Date(this.props.item.date);
+    if (cardDate < dayDate) {
+      color = 'danger';
+    } else if (cardDate < dayDate.setDate(dayDate.getDate() + 14)) {
+      color = 'warning';
+    } else if (cardDate < dayDate.setDate(dayDate.getDate() + 14)) {
+      color = 'primary';
+    } else {
+      color = 'success';
+    }
+    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs.toString()" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
     //<div align="right"><button className="btn btn-warning btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Reporter</button></div>
     return (
       <li className="timeline-item">
-        <div className="timeline-badge primary"><i className="glyphicon glyphicon-check"></i></div>
+        <div className={"timeline-badge " + color}><i className="glyphicon glyphicon-check"></i></div>
         <div className="timeline-panel" key={this.props.item._id}>
           <div className="timeline-heading">
             <h4 className="timeline-title">{this.props.item.date.toLocaleDateString('fr-FR')} - {this.props.item._id}</h4>
@@ -741,7 +754,7 @@ class App extends React.Component {
     console.log('[handleDeleteItem] avant promesse');
     var objIndex = this.state.items.findIndex(obj => obj._id === card._id);
 	var $self = this;
-	
+
     this.getItemFromDB(card).then(function (doc) {
       return $self.state.db.remove(doc._id, doc._rev);
     }).then(function(response) {
