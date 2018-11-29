@@ -310,6 +310,7 @@ class TimelineCard extends React.Component {
     };
 
     var color =  'success';
+    var bgd =  'pair';
 
     var dayDate = new Date();
     var cardDate = new Date(this.props.item.date);
@@ -322,12 +323,20 @@ class TimelineCard extends React.Component {
     } else {
       color = 'success';
     }
+
+    var month = cardDate.getMonth();
+    //si janvier, mars, mai, juillet, septembre, novembre => 0, 2, 4, 6, 8, 10
+    if (month == 0 || month == 2 || month == 4 || month == 6 || month == 8 || month == 10) {
+      bgd = 'impair';
+    } else {
+      bgd = 'pair';
+    }
     //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs.toString()" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
     //<div align="right"><button className="btn btn-warning btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Reporter</button></div>
     return (
       <li className="timeline-item">
         <div className={"timeline-badge " + color}><i className="glyphicon glyphicon-check"></i></div>
-        <div className="timeline-panel" key={this.props.item._id}>
+        <div className={"timeline-panel " + bgd} key={this.props.item._id}>
           <div className="timeline-heading">
             <h4 className="timeline-title">{this.props.item.date.toLocaleDateString('fr-FR')} - {this.props.item._id}</h4>
             <div>
