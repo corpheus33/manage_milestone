@@ -3,38 +3,40 @@
 
 //JDD
 // date au format MM/DD/YYYY
-var dataExample = [
-    {
-        _id: 1,
-        date: '09/06/2018',
-        content: 'contenu 1',
-        actif: true
-    },
-		{
-        _id: 4,
-        date: '11/18/2018',
-        content: 'contenu 4',
-        actif: false
-    },
-		{
-        _id: 3,
-        date: '10/30/2018',
-        content: 'contenu 3',
-        actif: false
-    },
-		{
-        _id: 2,
-        date: '10/15/2018',
-        content: 'contenu 2',
-        actif: true
-    },
-		{
-        _id: 5,
-        date: '12/12/2018',
-        content: 'contenu 5',
-        actif: true
-    },
-];
+
+// var dataExample = [
+//     {
+//         _id: 1,
+//         date: '09/06/2018',
+//         content: 'contenu 1',
+//         actif: true
+//     },
+// 		{
+//         _id: 4,
+//         date: '11/18/2018',
+//         content: 'contenu 4',
+//         actif: false
+//     },
+// 		{
+//         _id: 3,
+//         date: '10/30/2018',
+//         content: 'contenu 3',
+//         actif: false
+//     },
+// 		{
+//         _id: 2,
+//         date: '10/15/2018',
+//         content: 'contenu 2',
+//         actif: true
+//     },
+// 		{
+//         _id: 5,
+//         date: '12/12/2018',
+//         content: 'contenu 5',
+//         actif: true
+//     },
+// ];
+=======
 
 
 function idGenerator() {
@@ -309,12 +311,34 @@ class TimelineCard extends React.Component {
       float: 'left',
     };
 
-    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
+    var color =  'success';
+    var bgd =  'pair';
+
+    var dayDate = new Date();
+    var cardDate = new Date(this.props.item.date);
+    if (cardDate < dayDate) {
+      color = 'danger';
+    } else if (cardDate < dayDate.setDate(dayDate.getDate() + 14)) {
+      color = 'warning';
+    } else if (cardDate < dayDate.setDate(dayDate.getDate() + 14)) {
+      color = 'primary';
+    } else {
+      color = 'success';
+    }
+
+    var month = cardDate.getMonth();
+    //si janvier, mars, mai, juillet, septembre, novembre => 0, 2, 4, 6, 8, 10
+    if (month == 0 || month == 2 || month == 4 || month == 6 || month == 8 || month == 10) {
+      bgd = 'impair';
+    } else {
+      bgd = 'pair';
+    }
+    //<div style={divActionLeftStyle}><button className="btn btn-success btn-xs.toString()" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Clore</button></div>
     //<div align="right"><button className="btn btn-warning btn-xs" type="button" aria-haspopup="true" aria-expanded="false" onClick={() => {alert("postpone _id "+this.props.item._id.toString())}}>Reporter</button></div>
     return (
       <li className="timeline-item">
-        <div className="timeline-badge primary"><i className="glyphicon glyphicon-check"></i></div>
-        <div className="timeline-panel" key={this.props.item._id}>
+        <div className={"timeline-badge " + color}><i className="glyphicon glyphicon-check"></i></div>
+        <div className={"timeline-panel " + bgd} key={this.props.item._id}>
           <div className="timeline-heading">
             <h4 className="timeline-title">{this.props.item.date.toLocaleDateString('fr-FR')} - {this.props.item._id}</h4>
             <div>
@@ -735,25 +759,29 @@ class App extends React.Component {
     }).catch(function (err) {
       console.error('[handleUpdateItem] Erreur récupération objet en base! '+err.toString());
     });
-
-
-
-
   }
 
   handleDeleteItem(card) {
+    console.log('[handleDeleteItem] avant promesse');
     var objIndex = this.state.items.findIndex(obj => obj._id === card._id);
+	var $self = this;
 
-    //création de la copie
-    var updatedItems = this.state.items.slice();
-    updatedItems.splice(objIndex, 1);//index où se situe l'objet à supprimer et nombre d'objets à supprimer.
-
-    //remplacement de la liste par une nouvelle version
-    this.setState(
-      {
-        items: updatedItems
-      }
-    );
+    this.getItemFromDB(card).then(function (doc) {
+      return $self.state.db.remove(doc._id, doc._rev);
+    }).then(function(response) {
+      console.log('[handleDeleteItem] Successfully removed item '+card._id);
+      //création de la copie
+      var updatedItems = $self.state.items.slice();
+      updatedItems.splice(objIndex, 1);//index où se situe l'objet à supprimer et nombre d'objets à supprimer.
+      //remplacement de la liste par une nouvelle version
+      $self.setState({items: updatedItems});
+      console.log('[handleDeleteItem] on arrive au bout');
+      //remplacement de la liste par une nouvelle version
+      $self.setState({items: updatedItems.sort((a, b) => new Date(a.date) - new Date(b.date))});
+      console.log('[handleDeleteItem] on a fini');
+    }).catch(function (err) {
+      console.error('[handleDeleteItem] Erreur récupération objet en base! '+err.toString());
+    });
   }
 
 	render() {

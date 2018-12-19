@@ -73,11 +73,16 @@
   float: left;
   right: 16px;
   border: 1px solid #c0c0c0;
-  background: #ffffff;
   border-radius: 2px;
   padding: 20px;
   -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+.timeline .timeline-item .timeline-panel.pair  {
+  background: #ffffff;
+}
+.timeline .timeline-item .timeline-panel.impair  {
+  background: #dee9fc;
 }
 .timeline .timeline-item .timeline-panel:before {
   position: absolute;
