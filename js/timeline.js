@@ -3,6 +3,7 @@
 
 //JDD
 // date au format MM/DD/YYYY
+
 // var dataExample = [
 //     {
 //         _id: 1,
@@ -35,6 +36,7 @@
 //         actif: true
 //     },
 // ];
+=======
 
 
 function idGenerator() {
